@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface ArticleView : UIScrollView
+@interface ArticleView : UIScrollView <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *firstParaLabel;
 @property (weak, nonatomic) IBOutlet UILabel *articleTextLabel;
 @property (weak, nonatomic) IBOutlet PFImageView *albumArtImgView;

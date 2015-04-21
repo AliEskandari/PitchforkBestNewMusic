@@ -12,7 +12,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import "ArticleView.h"
 
-@interface DetailViewController : UIViewController <UIScrollViewDelegate>
+@interface DetailViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *artistLabel;
 @property (weak, nonatomic) IBOutlet UILabel *albumLabel;

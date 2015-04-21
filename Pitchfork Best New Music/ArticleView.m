@@ -32,14 +32,13 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     if ((self = [super initWithCoder:decoder])) {
-        NSLog(@"created nib");
+        
     }
     return self;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    NSLog(@"awake");
 }
 
 
