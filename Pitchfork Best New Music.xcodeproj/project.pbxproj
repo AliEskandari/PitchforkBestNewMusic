@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4109A8431AE189F90019A724 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4109A8421AE189F90019A724 /* DetailViewController.m */; };
+		41484A841AE69841001B4324 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41484A831AE69841001B4324 /* Social.framework */; };
+		41484A861AE69847001B4324 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41484A851AE69847001B4324 /* Accounts.framework */; };
 		41829E311ADF248A00D59AE3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41829E301ADF248A00D59AE3 /* main.m */; };
 		41829E341ADF248A00D59AE3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41829E331ADF248A00D59AE3 /* AppDelegate.m */; };
 		41829E3A1ADF248A00D59AE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41829E381ADF248A00D59AE3 /* Main.storyboard */; };
@@ -53,6 +55,8 @@
 		310F976AE75650F91ED82339 /* Pods-Pitchfork Best New Music.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pitchfork Best New Music.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pitchfork Best New Music/Pods-Pitchfork Best New Music.release.xcconfig"; sourceTree = "<group>"; };
 		4109A8411AE189F90019A724 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		4109A8421AE189F90019A724 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		41484A831AE69841001B4324 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		41484A851AE69847001B4324 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		41829E2B1ADF248A00D59AE3 /* Pitchfork Best New Music.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pitchfork Best New Music.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41829E2F1ADF248A00D59AE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41829E301ADF248A00D59AE3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,6 +101,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41484A861AE69847001B4324 /* Accounts.framework in Frameworks */,
+				41484A841AE69841001B4324 /* Social.framework in Frameworks */,
 				41D3EDB71AE4A63A00E4C507 /* CoreMotion.framework in Frameworks */,
 				41829E6E1ADF262600D59AE3 /* libsqlite3.dylib in Frameworks */,
 				41829E6C1ADF261900D59AE3 /* libz.dylib in Frameworks */,
@@ -189,6 +195,8 @@
 		41829E581ADF258900D59AE3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41484A851AE69847001B4324 /* Accounts.framework */,
+				41484A831AE69841001B4324 /* Social.framework */,
 				41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */,
 				41829E791ADF2E6300D59AE3 /* ParseUI.framework */,
 				41829E6F1ADF27BE00D59AE3 /* Bolts.framework */,

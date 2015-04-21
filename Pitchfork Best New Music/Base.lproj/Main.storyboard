@@ -110,9 +110,6 @@
                                 <exclude reference="LaP-wY-NDo"/>
                             </mask>
                         </variation>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="6kc-I7-m0b" appends="YES" id="iXn-3T-MIa"/>
-                        </connections>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
@@ -123,7 +120,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T3b-9X-xft" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="6kc-I7-m0b"/>
             </objects>
             <point key="canvasLocation" x="2069" y="404"/>
         </scene>

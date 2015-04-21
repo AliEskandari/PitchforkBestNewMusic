@@ -20,21 +20,29 @@ ArticleView *_articleView;
     // Do any additional setup after loading the view.
     
     // Instantiate a referenced view (assuming outlet has hooked up in XIB).
-    _articleView = [[ArticleView alloc] initWithFrame:CGRectMake(0, 109, self.view.frame.size.width, self.view.frame.size.height)];
+    _articleView = [[ArticleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:_articleView];
     [_articleView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     NSDictionary* elemDict = NSDictionaryOfVariableBindings(_articleView);
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_articleView]-|"
-//                                                                     options:NSLayoutFormatDirectionLeadingToTrailing
-//                                                                     metrics:nil
-//                                                                       views:elemDict]];
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(109)[_articleView]"
-//                                                                      options:NSLayoutFormatDirectionLeadingToTrailing
-//                                                                      metrics:nil
-//                                                                        views:elemDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_articleView]|"
+                                                                     options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                     metrics:nil
+                                                                       views:elemDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(205)-[_articleView]"
+                                                                      options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                      metrics:nil
+                                                                        views:elemDict]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_articleView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:-205]];
     
     // Controller's outlet has been bound during nib loading, so we can access view trough the outlet.
-    [self.view addSubview:_articleView];
+
         
     //==============================================POPULATING
     self.artistLabel.text = [self.o[@"artist"] lowercaseString];
@@ -74,6 +82,8 @@ ArticleView *_articleView;
     //==============================================PARAGRAPHS
     NSMutableArray* paras = [NSMutableArray arrayWithArray:[self.o[@"article_text"] componentsSeparatedByString:@"\n"]];
     
+    NSLog(@"%@", paras[0]);
+    
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     style.lineSpacing = 4;
     [style setAlignment:NSTextAlignmentJustified];
@@ -91,24 +101,25 @@ ArticleView *_articleView;
     _articleView.firstParaLabel.numberOfLines = 0;
     
     
-    _articleView.firstParaLabel.attributedText = [[NSAttributedString alloc] initWithString:paras[0]
-                                                                         attributes:attributes];
+    _articleView.firstParaLabel.attributedText = [[NSAttributedString alloc]
+                                                  initWithString:paras[0]                                                                         attributes:attributes];
     
-    labelSize = [_articleView.firstParaLabel.text sizeWithFont:_articleView.firstParaLabel.font
-                                       constrainedToSize:_articleView.firstParaLabel.frame.size
-                                           lineBreakMode:_articleView.firstParaLabel.lineBreakMode];
-    _articleView.firstParaLabel.frame = CGRectMake(
-                                             _articleView.firstParaLabel.frame.origin.x,
-                                             _articleView.firstParaLabel.frame.origin.y,
-                                             _articleView.firstParaLabel.frame.size.width,
+    labelSize = [_articleView.articleTextLabel.text sizeWithFont:_articleView.articleTextLabel.font
+                                       constrainedToSize:_articleView.articleTextLabel.frame.size
+                                           lineBreakMode:_articleView.articleTextLabel.lineBreakMode];
+    _articleView.articleTextLabel.frame = CGRectMake(
+                                             _articleView.articleTextLabel.frame.origin.x,
+                                             _articleView.articleTextLabel.frame.origin.y,
+                                             _articleView.articleTextLabel.frame.size.width,
                                              labelSize.height);
-    _articleView.firstParaLabel.numberOfLines = 0;
+    _articleView.articleTextLabel.numberOfLines = 0;
     
     [paras removeObjectAtIndex:0];
     NSString *articleText = [paras componentsJoinedByString:@"\n\t"];
-    _articleView.firstParaLabel.attributedText = [[NSAttributedString alloc] initWithString:articleText
+    _articleView.articleTextLabel.attributedText = [[NSAttributedString alloc] initWithString:articleText
                                                                            attributes:attributes];
-    
+    _articleView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    [_articleView layoutIfNeeded];
     //==============================================AUTOLAYOUT
     [_articleView.albumArtImgView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_articleView.firstParaLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
