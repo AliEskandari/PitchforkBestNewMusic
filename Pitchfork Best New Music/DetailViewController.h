@@ -10,15 +10,19 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import <CoreMotion/CoreMotion.h>
-#import "ArticleViewController.h"
+#import "ArticleView.h"
 
 @interface DetailViewController : UIViewController <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *artistLabel;
 @property (weak, nonatomic) IBOutlet UILabel *albumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property ArticleViewController *articleVC;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property PFObject* o;
+
+@property NSTimer *timer;
+@property CMAttitude *atitude;
+@property CMMotionManager *mm;
+
+//@property ArticleView* articleView;
 
 @end

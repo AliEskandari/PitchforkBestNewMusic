@@ -31,8 +31,11 @@
 		41829E7E1ADF41CE00D59AE3 /* ReviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41829E7C1ADF41CE00D59AE3 /* ReviewTableViewCell.m */; };
 		41829E7F1ADF41CE00D59AE3 /* ReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41829E7D1ADF41CE00D59AE3 /* ReviewTableViewCell.xib */; };
 		41829E821ADF50F500D59AE3 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41829E811ADF50F500D59AE3 /* MainTableViewController.m */; };
+		41BF1B3F1AE5FA9B006F959C /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BF1B3E1AE5FA9B006F959C /* ArticleView.m */; };
+		41BF1B411AE5FAB6006F959C /* ArticleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41BF1B401AE5FAB6006F959C /* ArticleView.xib */; };
 		41D3EDB71AE4A63A00E4C507 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */; };
 		41D3EDBA1AE4C39A00E4C507 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */; };
+		ADDBC0524C332E999E3892E9 /* libPods-Pitchfork Best New Music.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 052AB83CBD536F62E1E38A16 /* libPods-Pitchfork Best New Music.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		052AB83CBD536F62E1E38A16 /* libPods-Pitchfork Best New Music.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pitchfork Best New Music.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		310F976AE75650F91ED82339 /* Pods-Pitchfork Best New Music.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pitchfork Best New Music.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pitchfork Best New Music/Pods-Pitchfork Best New Music.release.xcconfig"; sourceTree = "<group>"; };
 		4109A8411AE189F90019A724 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		4109A8421AE189F90019A724 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		41829E2B1ADF248A00D59AE3 /* Pitchfork Best New Music.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pitchfork Best New Music.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,9 +83,13 @@
 		41829E7D1ADF41CE00D59AE3 /* ReviewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTableViewCell.xib; sourceTree = "<group>"; };
 		41829E801ADF50F500D59AE3 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		41829E811ADF50F500D59AE3 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		41BF1B3D1AE5FA9B006F959C /* ArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleView.h; sourceTree = "<group>"; };
+		41BF1B3E1AE5FA9B006F959C /* ArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleView.m; sourceTree = "<group>"; };
+		41BF1B401AE5FAB6006F959C /* ArticleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleView.xib; sourceTree = "<group>"; };
 		41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		41D3EDB81AE4C39A00E4C507 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
 		41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
+		B5D2CB5F3D24F7323B990D03 /* Pods-Pitchfork Best New Music.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pitchfork Best New Music.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pitchfork Best New Music/Pods-Pitchfork Best New Music.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +112,7 @@
 				41829E5E1ADF25D800D59AE3 /* CoreGraphics.framework in Frameworks */,
 				41829E5C1ADF25CE00D59AE3 /* CFNetwork.framework in Frameworks */,
 				41829E5A1ADF25BC00D59AE3 /* AudioToolbox.framework in Frameworks */,
+				ADDBC0524C332E999E3892E9 /* libPods-Pitchfork Best New Music.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +133,7 @@
 				41829E471ADF248B00D59AE3 /* Pitchfork Best New MusicTests */,
 				41829E581ADF258900D59AE3 /* Frameworks */,
 				41829E2C1ADF248A00D59AE3 /* Products */,
+				80DDD9C8470D4E0E0B381427 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -193,6 +204,7 @@
 				41829E5D1ADF25D800D59AE3 /* CoreGraphics.framework */,
 				41829E5B1ADF25CE00D59AE3 /* CFNetwork.framework */,
 				41829E591ADF25BC00D59AE3 /* AudioToolbox.framework */,
+				052AB83CBD536F62E1E38A16 /* libPods-Pitchfork Best New Music.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -209,8 +221,20 @@
 				4109A8421AE189F90019A724 /* DetailViewController.m */,
 				41D3EDB81AE4C39A00E4C507 /* ArticleViewController.h */,
 				41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */,
+				41BF1B3D1AE5FA9B006F959C /* ArticleView.h */,
+				41BF1B3E1AE5FA9B006F959C /* ArticleView.m */,
+				41BF1B401AE5FAB6006F959C /* ArticleView.xib */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		80DDD9C8470D4E0E0B381427 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B5D2CB5F3D24F7323B990D03 /* Pods-Pitchfork Best New Music.debug.xcconfig */,
+				310F976AE75650F91ED82339 /* Pods-Pitchfork Best New Music.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,9 +244,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 41829E4E1ADF248B00D59AE3 /* Build configuration list for PBXNativeTarget "Pitchfork Best New Music" */;
 			buildPhases = (
+				FBEA080B4B4909FD045CCDBA /* Check Pods Manifest.lock */,
 				41829E271ADF248A00D59AE3 /* Sources */,
 				41829E281ADF248A00D59AE3 /* Frameworks */,
 				41829E291ADF248A00D59AE3 /* Resources */,
+				29F3A22862DB9F325E3E2EE6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -294,6 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41BF1B411AE5FAB6006F959C /* ArticleView.xib in Resources */,
 				41829E3A1ADF248A00D59AE3 /* Main.storyboard in Resources */,
 				41829E7F1ADF41CE00D59AE3 /* ReviewTableViewCell.xib in Resources */,
 				41829E3F1ADF248A00D59AE3 /* LaunchScreen.xib in Resources */,
@@ -310,6 +337,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		29F3A22862DB9F325E3E2EE6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pitchfork Best New Music/Pods-Pitchfork Best New Music-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FBEA080B4B4909FD045CCDBA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		41829E271ADF248A00D59AE3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -320,6 +380,7 @@
 				41829E7E1ADF41CE00D59AE3 /* ReviewTableViewCell.m in Sources */,
 				41829E341ADF248A00D59AE3 /* AppDelegate.m in Sources */,
 				41829E311ADF248A00D59AE3 /* main.m in Sources */,
+				41BF1B3F1AE5FA9B006F959C /* ArticleView.m in Sources */,
 				41D3EDBA1AE4C39A00E4C507 /* ArticleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +505,7 @@
 		};
 		41829E4F1ADF248B00D59AE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5D2CB5F3D24F7323B990D03 /* Pods-Pitchfork Best New Music.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -461,6 +523,7 @@
 		};
 		41829E501ADF248B00D59AE3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 310F976AE75650F91ED82339 /* Pods-Pitchfork Best New Music.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

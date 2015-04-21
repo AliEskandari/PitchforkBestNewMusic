@@ -89,12 +89,6 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <containerView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ebY-zJ-t0C">
-                                <rect key="frame" x="0.0" y="54" width="600" height="808"/>
-                                <connections>
-                                    <segue destination="TXM-0i-7Zm" kind="embed" identifier="ContainerSegue" id="rrj-TK-PQe"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -102,16 +96,12 @@
                             <constraint firstItem="f0Q-7q-EeJ" firstAttribute="top" secondItem="ASf-C2-2kQ" secondAttribute="bottom" id="7d1-tW-wxn"/>
                             <constraint firstItem="f0Q-7q-EeJ" firstAttribute="trailing" secondItem="ASf-C2-2kQ" secondAttribute="trailing" id="8Gx-O3-F6f"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zF5-Hd-CeU" secondAttribute="trailing" constant="34" id="LaP-wY-NDo"/>
-                            <constraint firstItem="ebY-zJ-t0C" firstAttribute="leading" secondItem="d2M-2r-aVE" secondAttribute="leading" id="Llf-Eu-TID"/>
                             <constraint firstItem="zF5-Hd-CeU" firstAttribute="centerX" secondItem="JuZ-sQ-Gdr" secondAttribute="centerX" id="N1o-4Y-DvT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ASf-C2-2kQ" secondAttribute="trailing" constant="-8" id="RqN-nZ-n5q"/>
-                            <constraint firstAttribute="bottom" secondItem="ebY-zJ-t0C" secondAttribute="bottom" constant="-262" id="Sf7-Vy-FaQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JuZ-sQ-Gdr" secondAttribute="trailing" constant="14" id="VPk-EY-gk1"/>
                             <constraint firstItem="ASf-C2-2kQ" firstAttribute="top" secondItem="SKl-9V-oGZ" secondAttribute="bottom" constant="26" id="Y6g-kI-ZGz"/>
-                            <constraint firstAttribute="trailing" secondItem="ebY-zJ-t0C" secondAttribute="trailing" id="YdF-sn-ENO"/>
                             <constraint firstItem="JuZ-sQ-Gdr" firstAttribute="top" secondItem="SKl-9V-oGZ" secondAttribute="bottom" constant="123" id="dhh-tk-AQq"/>
                             <constraint firstItem="zF5-Hd-CeU" firstAttribute="centerY" secondItem="JuZ-sQ-Gdr" secondAttribute="centerY" id="fk5-PM-2mq"/>
-                            <constraint firstItem="ebY-zJ-t0C" firstAttribute="top" secondItem="SKl-9V-oGZ" secondAttribute="bottom" constant="-10" id="ugd-BU-ijb"/>
                             <constraint firstItem="ASf-C2-2kQ" firstAttribute="leading" secondItem="f0Q-7q-EeJ" secondAttribute="leading" id="ytv-0E-aJK"/>
                             <constraint firstItem="ASf-C2-2kQ" firstAttribute="leading" secondItem="d2M-2r-aVE" secondAttribute="leadingMargin" constant="4" id="zd3-mR-gMb"/>
                         </constraints>
@@ -129,7 +119,6 @@
                     <connections>
                         <outlet property="albumLabel" destination="ASf-C2-2kQ" id="Ph5-hq-N9f"/>
                         <outlet property="artistLabel" destination="f0Q-7q-EeJ" id="NMa-fr-8vX"/>
-                        <outlet property="containerView" destination="ebY-zJ-t0C" id="jdR-lS-pV4"/>
                         <outlet property="scoreLabel" destination="zF5-Hd-CeU" id="aaW-d8-Zwl"/>
                     </connections>
                 </viewController>
@@ -157,92 +146,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1hf-se-6OM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="452" y="404"/>
-        </scene>
-        <!--Article View Controller-->
-        <scene sceneID="paI-Sf-plI">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="TXM-0i-7Zm" customClass="ArticleViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BVH-yp-9vb"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ahe-Gv-NvJ"/>
-                    </layoutGuides>
-                    <scrollView key="view" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" id="t0M-RK-75r">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fF-z5-P8B" userLabel="First Para">
-                                <rect key="frame" x="20" y="25" width="560" height="102"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="dd4-Vu-D4K"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <string key="content">In a recent appearance on "Tavis Smiley", Smiley asked the now-24-year-old Tyler, the Creator to describe himself. He replied with a candid, perhaps-practiced monologue: "I’m very bright. I’m smart. I’m annoying and obnoxious. I’m very creative and borderline genius, and I think other people are starting to see that, too."
-</string>
-                                        <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <font key="NSFont" size="15" name="Georgia"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="4"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VxF-X7-O9c">
-                                <rect key="frame" x="0.0" y="152" width="600" height="300"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufh-vA-9kw" customClass="PFImageView">
-                                        <rect key="frame" x="290" y="0.0" width="300" height="300"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="300" id="YBH-iH-TCV"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="ufh-vA-9kw" secondAttribute="trailing" constant="10" id="SVl-Dv-Nj6"/>
-                                    <constraint firstItem="ufh-vA-9kw" firstAttribute="top" secondItem="VxF-X7-O9c" secondAttribute="top" id="UKc-m8-da4"/>
-                                    <constraint firstAttribute="bottom" secondItem="ufh-vA-9kw" secondAttribute="bottom" id="WSU-bQ-YRv"/>
-                                    <constraint firstAttribute="height" constant="300" id="vIc-4w-9jH"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOT-F9-tTD">
-                                <rect key="frame" x="20" y="477" width="560" height="19"/>
-                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="UOT-F9-tTD" firstAttribute="top" secondItem="VxF-X7-O9c" secondAttribute="bottom" constant="25" id="GYT-ic-D2X"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="5fF-z5-P8B" secondAttribute="trailing" constant="12" id="QNb-oi-Vgh"/>
-                            <constraint firstItem="VxF-X7-O9c" firstAttribute="leading" secondItem="t0M-RK-75r" secondAttribute="leading" id="Vh4-F9-2wT"/>
-                            <constraint firstItem="UOT-F9-tTD" firstAttribute="leading" secondItem="t0M-RK-75r" secondAttribute="leadingMargin" constant="12" id="Vn8-HM-zaN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="UOT-F9-tTD" secondAttribute="trailing" constant="12" id="XJd-XM-fRN"/>
-                            <constraint firstItem="UOT-F9-tTD" firstAttribute="centerX" secondItem="VxF-X7-O9c" secondAttribute="centerX" id="bdm-KD-36m"/>
-                            <constraint firstItem="5fF-z5-P8B" firstAttribute="top" secondItem="BVH-yp-9vb" secondAttribute="bottom" constant="25" id="qsf-qA-aTS"/>
-                            <constraint firstItem="5fF-z5-P8B" firstAttribute="leading" secondItem="t0M-RK-75r" secondAttribute="leadingMargin" constant="4" id="vbn-TY-jqE"/>
-                            <constraint firstItem="VxF-X7-O9c" firstAttribute="top" secondItem="5fF-z5-P8B" secondAttribute="bottom" constant="25" id="vej-aK-wzi"/>
-                            <constraint firstItem="5fF-z5-P8B" firstAttribute="centerX" secondItem="t0M-RK-75r" secondAttribute="centerX" id="yHg-jX-UmA"/>
-                            <constraint firstAttribute="trailing" secondItem="VxF-X7-O9c" secondAttribute="trailing" id="yrn-xQ-Jmm"/>
-                        </constraints>
-                        <connections>
-                            <outlet property="delegate" destination="TXM-0i-7Zm" id="XWZ-ra-x96"/>
-                        </connections>
-                    </scrollView>
-                    <toolbarItems/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="600"/>
-                    <connections>
-                        <outlet property="albumArtImgView" destination="ufh-vA-9kw" id="RbN-fW-06T"/>
-                        <outlet property="articleTextLabel" destination="UOT-F9-tTD" id="5Dv-Uu-j0i"/>
-                        <outlet property="firstParaLabel" destination="5fF-z5-P8B" id="SPY-8G-Wrh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MGo-2d-4sJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2773" y="409"/>
         </scene>
     </scenes>
     <resources>
