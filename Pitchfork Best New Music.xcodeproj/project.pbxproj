@@ -27,14 +27,15 @@
 		41829E6A1ADF260800D59AE3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41829E691ADF260800D59AE3 /* SystemConfiguration.framework */; };
 		41829E6C1ADF261900D59AE3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41829E6B1ADF261900D59AE3 /* libz.dylib */; };
 		41829E6E1ADF262600D59AE3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41829E6D1ADF262600D59AE3 /* libsqlite3.dylib */; };
-		41829E711ADF27BE00D59AE3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41829E6F1ADF27BE00D59AE3 /* Bolts.framework */; };
-		41829E721ADF27BE00D59AE3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41829E701ADF27BE00D59AE3 /* Parse.framework */; };
-		41829E7A1ADF2E6300D59AE3 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41829E791ADF2E6300D59AE3 /* ParseUI.framework */; };
 		41829E7E1ADF41CE00D59AE3 /* ReviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41829E7C1ADF41CE00D59AE3 /* ReviewTableViewCell.m */; };
 		41829E7F1ADF41CE00D59AE3 /* ReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41829E7D1ADF41CE00D59AE3 /* ReviewTableViewCell.xib */; };
 		41829E821ADF50F500D59AE3 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41829E811ADF50F500D59AE3 /* MainTableViewController.m */; };
 		41BF1B3F1AE5FA9B006F959C /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BF1B3E1AE5FA9B006F959C /* ArticleView.m */; };
 		41BF1B411AE5FAB6006F959C /* ArticleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41BF1B401AE5FAB6006F959C /* ArticleView.xib */; };
+		41CCE1C01AE80C0A00028623 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BC1AE80C0A00028623 /* Bolts.framework */; };
+		41CCE1C11AE80C0B00028623 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BD1AE80C0A00028623 /* Parse.framework */; };
+		41CCE1C21AE80C0B00028623 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BE1AE80C0A00028623 /* ParseUI.framework */; };
+		41CCE1C31AE80C0B00028623 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BF1AE80C0A00028623 /* Spotify.framework */; };
 		41D3EDB71AE4A63A00E4C507 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */; };
 		41D3EDBA1AE4C39A00E4C507 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */; };
 		ADDBC0524C332E999E3892E9 /* libPods-Pitchfork Best New Music.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 052AB83CBD536F62E1E38A16 /* libPods-Pitchfork Best New Music.a */; };
@@ -79,9 +80,6 @@
 		41829E691ADF260800D59AE3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		41829E6B1ADF261900D59AE3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		41829E6D1ADF262600D59AE3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		41829E6F1ADF27BE00D59AE3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		41829E701ADF27BE00D59AE3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		41829E791ADF2E6300D59AE3 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		41829E7B1ADF41CE00D59AE3 /* ReviewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewTableViewCell.h; sourceTree = "<group>"; };
 		41829E7C1ADF41CE00D59AE3 /* ReviewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewTableViewCell.m; sourceTree = "<group>"; };
 		41829E7D1ADF41CE00D59AE3 /* ReviewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTableViewCell.xib; sourceTree = "<group>"; };
@@ -90,6 +88,10 @@
 		41BF1B3D1AE5FA9B006F959C /* ArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleView.h; sourceTree = "<group>"; };
 		41BF1B3E1AE5FA9B006F959C /* ArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleView.m; sourceTree = "<group>"; };
 		41BF1B401AE5FAB6006F959C /* ArticleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleView.xib; sourceTree = "<group>"; };
+		41CCE1BC1AE80C0A00028623 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
+		41CCE1BD1AE80C0A00028623 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
+		41CCE1BE1AE80C0A00028623 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Frameworks/ParseUI.framework; sourceTree = "<group>"; };
+		41CCE1BF1AE80C0A00028623 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = Frameworks/Spotify.framework; sourceTree = "<group>"; };
 		41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		41D3EDB81AE4C39A00E4C507 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
 		41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
@@ -101,17 +103,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41CCE1C21AE80C0B00028623 /* ParseUI.framework in Frameworks */,
 				41484A861AE69847001B4324 /* Accounts.framework in Frameworks */,
 				41484A841AE69841001B4324 /* Social.framework in Frameworks */,
 				41D3EDB71AE4A63A00E4C507 /* CoreMotion.framework in Frameworks */,
 				41829E6E1ADF262600D59AE3 /* libsqlite3.dylib in Frameworks */,
 				41829E6C1ADF261900D59AE3 /* libz.dylib in Frameworks */,
-				41829E7A1ADF2E6300D59AE3 /* ParseUI.framework in Frameworks */,
 				41829E6A1ADF260800D59AE3 /* SystemConfiguration.framework in Frameworks */,
-				41829E711ADF27BE00D59AE3 /* Bolts.framework in Frameworks */,
+				41CCE1C11AE80C0B00028623 /* Parse.framework in Frameworks */,
 				41829E681ADF25FE00D59AE3 /* StoreKit.framework in Frameworks */,
 				41829E661ADF25F900D59AE3 /* Security.framework in Frameworks */,
-				41829E721ADF27BE00D59AE3 /* Parse.framework in Frameworks */,
+				41CCE1C31AE80C0B00028623 /* Spotify.framework in Frameworks */,
 				41829E641ADF25F200D59AE3 /* QuartzCore.framework in Frameworks */,
 				41829E621ADF25EC00D59AE3 /* MobileCoreServices.framework in Frameworks */,
 				41829E601ADF25E200D59AE3 /* CoreLocation.framework in Frameworks */,
@@ -119,6 +121,7 @@
 				41829E5C1ADF25CE00D59AE3 /* CFNetwork.framework in Frameworks */,
 				41829E5A1ADF25BC00D59AE3 /* AudioToolbox.framework in Frameworks */,
 				ADDBC0524C332E999E3892E9 /* libPods-Pitchfork Best New Music.a in Frameworks */,
+				41CCE1C01AE80C0A00028623 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,12 +198,13 @@
 		41829E581ADF258900D59AE3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41CCE1BC1AE80C0A00028623 /* Bolts.framework */,
+				41CCE1BD1AE80C0A00028623 /* Parse.framework */,
+				41CCE1BE1AE80C0A00028623 /* ParseUI.framework */,
+				41CCE1BF1AE80C0A00028623 /* Spotify.framework */,
 				41484A851AE69847001B4324 /* Accounts.framework */,
 				41484A831AE69841001B4324 /* Social.framework */,
 				41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */,
-				41829E791ADF2E6300D59AE3 /* ParseUI.framework */,
-				41829E6F1ADF27BE00D59AE3 /* Bolts.framework */,
-				41829E701ADF27BE00D59AE3 /* Parse.framework */,
 				41829E6D1ADF262600D59AE3 /* libsqlite3.dylib */,
 				41829E6B1ADF261900D59AE3 /* libz.dylib */,
 				41829E691ADF260800D59AE3 /* SystemConfiguration.framework */,
@@ -520,6 +524,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "Pitchfork Best New Music/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -538,6 +543,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "Pitchfork Best New Music/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
