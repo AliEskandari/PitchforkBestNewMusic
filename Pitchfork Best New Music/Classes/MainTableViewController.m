@@ -8,12 +8,14 @@
 
 #import "MainTableViewController.h"
 #import "ReviewTableViewCell.h"
+#import <Spotify/SPTDiskCache.h>
 
 
-@interface MainTableViewController ()
+@interface MainTableViewController () <SPTAudioStreamingDelegate>
 @property NSInteger toggle;
 @property (strong, nonatomic) UIPickerView *pickerView;
 @property NSArray* pickerViewNames;
+@property (nonatomic, strong) SPTAudioStreamingController *player;
 
 // contraints
 @property NSLayoutConstraint *alignTableViewTopViewTopContraint;
@@ -113,20 +115,110 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     // QUERY
     [self query:@"year" ascending:NO];
     
+
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
+    
+    MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
+    [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent *event) {
+        // Begin playing the current track.
+        [self.player setIsPlaying:YES callback:nil];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }];
+    [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent *event) {
+        // Begin playing the current track.
+        [self.player setIsPlaying:NO callback:nil];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }];
+    [commandCenter.nextTrackCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent *event) {
+        // Begin playing the current track.
+        [self.player skipNext:nil];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }];
+    [commandCenter.previousTrackCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent *event) {
+        // Begin playing the current track.
+        [self.player skipPrevious:nil];
+        return MPRemoteCommandHandlerStatusSuccess;
+    }];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+
+    
+//    MPNowPlayingInfoCenter* info = [MPNowPlayingInfoCenter defaultCenter];
+//    NSMutableDictionary* newInfo = [NSMutableDictionary dictionary];
+//    NSSet* itemProperties = [NSSet setWithObjects:MPMediaItemPropertyTitle,
+//                             MPMediaItemPropertyArtist,
+//                             MPMediaItemPropertyPlaybackDuration,
+//                             MPNowPlayingInfoPropertyElapsedPlaybackTime,
+//                             nil];
+//    
+//    newInfo = @{MPMediaItemPropertyTitle: @"Hello", MPMediaItemPropertyArtist: @"Beyonce", MPMediaItemPropertyPlaybackDuration:@30, MPNowPlayingInfoPropertyElapsedPlaybackTime: @30};
+//    
+//    info.nowPlayingInfo = newInfo;
+    
+    
 }
 
+//- (void) remoteControlReceivedWithEvent: (UIEvent*) event
+//{
+//    // see [event subtype] for details
+//    if (event.type == UIEventTypeRemoteControl) {
+//        // We may be receiving an event from the lockscreen
+//        switch (event.subtype) {
+//            case UIEventSubtypeRemoteControlTogglePlayPause:
+//            case UIEventSubtypeRemoteControlPlay:
+//            case UIEventSubtypeRemoteControlPause:
+//                // User pressed play or pause from lockscreen
+//                NSLog(@"af");
+//                break;
+//                
+//            case UIEventSubtypeRemoteControlNextTrack:
+//                // User pressed FFW from lockscreen
+//                break;
+//                
+//            case UIEventSubtypeRemoteControlPreviousTrack:
+//                // User pressed rewind from lockscreen
+//                break;
+//                
+//            default:
+//                break;
+//        }
+//    }
+//}
+
 - (void) viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    
     self.navigationController.hidesBarsOnSwipe = YES;
+    
+    //Once the view has loaded then we can register to begin recieving controls and we can become the first responder
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
+    
+    [self handleNewSession];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    //End recieving events
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -140,7 +232,6 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     // Return the number of rows in the section.
     return [data count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -162,12 +253,10 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     return 80;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *o = data[indexPath.row];
     [self performSegueWithIdentifier:@"ShowDetail" sender:o];
 }
-
 
 /*
 // Override to support conditional editing of the table view.
@@ -203,7 +292,6 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 }
 */
 
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -212,17 +300,16 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     // Pass the selected object to the new view controller.
     DetailViewController *vc = [segue destinationViewController];
     vc.o = sender;
+    vc.player = self.player;
 }
 
-
 - (IBAction)sortButtonPressed:(id)sender {
-
     [self bringUpPickerView];
 }
 
-- (void)bringUpPickerView
-{
+#pragma mark - Picker View
 
+- (void)bringUpPickerView {
     [UIView animateWithDuration:0.5f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -238,8 +325,7 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
                      completion:nil];
 }
 
-- (void)hidePickerView
-{
+- (void)hidePickerView {
     [UIView animateWithDuration:0.5f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -256,8 +342,7 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
      }];
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.toggle = 0;
     switch (row) {
         case 0:
@@ -275,27 +360,24 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     [self hidePickerView];
 }
 
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     return [self.pickerViewNames count];
 }
 
-- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
     NSString *title = self.pickerViewNames[row];
     NSAttributedString *attString = [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"Arial" size:0.0]}];
     
     return attString;
-    
 }
 
-- (void)query:(NSString*) sortByfield ascending:(bool) ascending{
+#pragma mark - Private methods
+
+- (void)query:(NSString*) sortByfield ascending:(bool) ascending {
     PFQuery *query = [PFQuery queryWithClassName:@"PitchforkBestNewMusic"];
     [query setLimit: 1000];
     if (ascending) {
@@ -317,6 +399,72 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
         }
     }];
 }
+
+-(void)handleNewSession {
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    if (self.player == nil) {
+        self.player = [[SPTAudioStreamingController alloc] initWithClientId:auth.clientID];
+        self.player.playbackDelegate = self;
+        self.player.diskCache = [[SPTDiskCache alloc] initWithCapacity:1024 * 1024 * 64];
+    }
+    
+    [self.player loginWithSession:auth.session callback:^(NSError *error) {
+        
+        if (error != nil) {
+            NSLog(@"*** Enabling playback got error: %@", error);
+            return;
+        }
+        
+//        [self updateUI];
+        
+    }];
+}
+
+#pragma mark - Track Player Delegates
+
+- (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didReceiveMessage:(NSString *)message {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message from Spotify"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didFailToPlayTrack:(NSURL *)trackUri {
+    NSLog(@"failed to play track: %@", trackUri);
+}
+
+- (void) audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata {
+    NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
+//    [self updateUI];
+}
+
+- (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangePlaybackStatus:(BOOL)isPlaying {
+    NSLog(@"is playing = %d", isPlaying);
+}
+
+#pragma mark - Control Center
+
+//- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+//    
+//    if (receivedEvent.type == UIEventTypeRemoteControl) {
+//        switch (receivedEvent.subtype) {
+//            case UIEventSubtypeRemoteControlPlay:
+//                [self.player setIsPlaying:YES callback:nil];
+//                break;
+//            case UIEventSubtypeRemoteControlPause:
+//                [self.player setIsPlaying:NO callback:nil];
+//                break;
+//            case UIEventSubtypeRemoteControlTogglePlayPause:
+//                [self.player setIsPlaying:!self.player.isPlaying callback:nil];
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+//}
 
 @end
 

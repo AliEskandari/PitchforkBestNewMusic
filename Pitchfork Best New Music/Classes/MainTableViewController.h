@@ -10,8 +10,12 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import "DetailViewController.h"
+#import "Config.h"
+#import <Spotify/Spotify.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface MainTableViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MainTableViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, AVAudioSessionDelegate>
 - (IBAction)sortButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

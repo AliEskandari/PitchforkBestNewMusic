@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import <CoreMotion/CoreMotion.h>
+#import <Spotify/Spotify.h>
 #import "ArticleView.h"
 
 @interface DetailViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate>
@@ -23,6 +24,10 @@
 @property CMAttitude *atitude;
 @property CMMotionManager *mm;
 
-//@property ArticleView* articleView;
+@property (nonatomic, strong) SPTAudioStreamingController *player;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
+
+- (IBAction)onPlayButtonPressed:(id)sender;
+- (IBAction)onNextButtonPressed:(id)sender;
 
 @end

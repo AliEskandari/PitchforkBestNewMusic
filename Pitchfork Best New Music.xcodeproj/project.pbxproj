@@ -38,6 +38,9 @@
 		41CCE1C31AE80C0B00028623 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BF1AE80C0A00028623 /* Spotify.framework */; };
 		41D3EDB71AE4A63A00E4C507 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */; };
 		41D3EDBA1AE4C39A00E4C507 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */; };
+		41DEEBD41AE87AE000918F97 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41DEEBD31AE87AE000918F97 /* AVFoundation.framework */; };
+		41DEEBD81AE8A5DB00918F97 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DEEBD71AE8A5DB00918F97 /* LoginController.m */; };
+		41DEEBDA1AE958C400918F97 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41DEEBD91AE958C400918F97 /* MediaPlayer.framework */; };
 		ADDBC0524C332E999E3892E9 /* libPods-Pitchfork Best New Music.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 052AB83CBD536F62E1E38A16 /* libPods-Pitchfork Best New Music.a */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +98,11 @@
 		41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		41D3EDB81AE4C39A00E4C507 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
 		41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
+		41DEEBD31AE87AE000918F97 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		41DEEBD51AE8862500918F97 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		41DEEBD61AE8A5DB00918F97 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
+		41DEEBD71AE8A5DB00918F97 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
+		41DEEBD91AE958C400918F97 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		B5D2CB5F3D24F7323B990D03 /* Pods-Pitchfork Best New Music.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pitchfork Best New Music.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pitchfork Best New Music/Pods-Pitchfork Best New Music.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41DEEBDA1AE958C400918F97 /* MediaPlayer.framework in Frameworks */,
+				41DEEBD41AE87AE000918F97 /* AVFoundation.framework in Frameworks */,
 				41CCE1C21AE80C0B00028623 /* ParseUI.framework in Frameworks */,
 				41484A861AE69847001B4324 /* Accounts.framework in Frameworks */,
 				41484A841AE69841001B4324 /* Social.framework in Frameworks */,
@@ -158,6 +168,7 @@
 		41829E2D1ADF248A00D59AE3 /* Pitchfork Best New Music */ = {
 			isa = PBXGroup;
 			children = (
+				41DEEBD51AE8862500918F97 /* Config.h */,
 				41829E321ADF248A00D59AE3 /* AppDelegate.h */,
 				41829E331ADF248A00D59AE3 /* AppDelegate.m */,
 				41829E381ADF248A00D59AE3 /* Main.storyboard */,
@@ -198,6 +209,8 @@
 		41829E581ADF258900D59AE3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41DEEBD91AE958C400918F97 /* MediaPlayer.framework */,
+				41DEEBD31AE87AE000918F97 /* AVFoundation.framework */,
 				41CCE1BC1AE80C0A00028623 /* Bolts.framework */,
 				41CCE1BD1AE80C0A00028623 /* Parse.framework */,
 				41CCE1BE1AE80C0A00028623 /* ParseUI.framework */,
@@ -224,6 +237,8 @@
 		41829E761ADF28D700D59AE3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				41DEEBD61AE8A5DB00918F97 /* LoginController.h */,
+				41DEEBD71AE8A5DB00918F97 /* LoginController.m */,
 				41829E7B1ADF41CE00D59AE3 /* ReviewTableViewCell.h */,
 				41829E7C1ADF41CE00D59AE3 /* ReviewTableViewCell.m */,
 				41829E7D1ADF41CE00D59AE3 /* ReviewTableViewCell.xib */,
@@ -237,7 +252,7 @@
 				41BF1B3E1AE5FA9B006F959C /* ArticleView.m */,
 				41BF1B401AE5FAB6006F959C /* ArticleView.xib */,
 			);
-			name = Classes;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		80DDD9C8470D4E0E0B381427 /* Pods */ = {
@@ -388,6 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4109A8431AE189F90019A724 /* DetailViewController.m in Sources */,
+				41DEEBD81AE8A5DB00918F97 /* LoginController.m in Sources */,
 				41829E821ADF50F500D59AE3 /* MainTableViewController.m in Sources */,
 				41829E7E1ADF41CE00D59AE3 /* ReviewTableViewCell.m in Sources */,
 				41829E341ADF248A00D59AE3 /* AppDelegate.m in Sources */,
@@ -529,6 +545,8 @@
 				INFOPLIST_FILE = "Pitchfork Best New Music/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -548,6 +566,7 @@
 				INFOPLIST_FILE = "Pitchfork Best New Music/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

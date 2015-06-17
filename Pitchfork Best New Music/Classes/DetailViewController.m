@@ -27,6 +27,23 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    NSString *str = [NSString stringWithFormat:@"spotify:album:%@", self.o[@"spotify_id"]];
+    [SPTRequest requestItemAtURI:[NSURL URLWithString:str]
+                     withSession:auth.session
+                        callback:^(NSError *error, id object) {
+                            
+                            if (error != nil) {
+                                NSLog(@"*** Album lookup got error %@", error);
+                                return;
+                            }
+
+                            [self.player playTrackProvider:(id<SPTTrackProvider>)object callback:^(NSError *error) {
+                                [self.player setIsPlaying:NO callback:nil];
+                            }];
+                        }];
+    
     //==============================================ARTICLE VIEW
     ARTICLE_VIEW_BOTTOM_STATE_Y = self.view.frame.size.height - ARTICLE_VIEW_BOTTOM_STATE_HEIGHT;
     _articleView = [[ArticleView alloc] initWithFrame:CGRectMake(0,
@@ -293,7 +310,6 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
-    
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)recognizer {
@@ -316,4 +332,16 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     return true;
 }
 
+- (IBAction)onPlayButtonPressed:(id)sender {
+    if (self.player.isPlaying) {
+        [self.playButton setImage:[UIImage imageNamed:@"PlaySmall.png"] forState:UIControlStateNormal];
+    } else {
+        [self.playButton setImage:[UIImage imageNamed:@"PauseSmall.png"] forState:UIControlStateNormal];
+    }
+    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
+}
+
+- (IBAction)onNextButtonPressed:(id)sender {
+    [self.player skipNext:nil];
+}
 @end
