@@ -13,23 +13,29 @@
 
 @implementation DetailViewController
 
-ArticleView *_articleView;
-UIPanGestureRecognizer *_panGestureRecognizer;
-CGRect topFrame;
-CGRect initialFrame;
-CGRect bottomFrame;
+ArticleView *articleView;
+UIPanGestureRecognizer *panGestureRecognizer;
 
+// reference variables for sliding article view
+static CGRect topFrame;
+static CGRect initialFrame;
+static CGRect bottomFrame;
 static int const ARTICLE_VIEW_TOP_SPACE = 210;
 static int const ARTICLE_VIEW_BOTTOM_STATE_HEIGHT = 120;
 static int ARTICLE_VIEW_BOTTOM_STATE_Y;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
+    //===============================================================
+    // Prepare Spotify Player
+    //================================================================
     SPTAuth *auth = [SPTAuth defaultInstance];
     
+    // create uri from album's spotify id
     NSString *str = [NSString stringWithFormat:@"spotify:album:%@", self.o[@"spotify_id"]];
+    
+    // request track provider and pass result to player
     [SPTRequest requestItemAtURI:[NSURL URLWithString:str]
                      withSession:auth.session
                         callback:^(NSError *error, id object) {
@@ -44,66 +50,84 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
                             }];
                         }];
     
-    //==============================================ARTICLE VIEW
-    ARTICLE_VIEW_BOTTOM_STATE_Y = self.view.frame.size.height - ARTICLE_VIEW_BOTTOM_STATE_HEIGHT;
-    _articleView = [[ArticleView alloc] initWithFrame:CGRectMake(0,
+    //================================================================
+    // Create Article View
+    //================================================================
+    articleView = [[ArticleView alloc] initWithFrame:CGRectMake(0,
                                                                  0,
                                                                  self.view.frame.size.width,
                                                                  self.view.frame.size.height)];
-    [self.view addSubview:_articleView];
-    [_articleView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_articleView.albumArtImgView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_articleView.firstParaLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addSubview:articleView];
     
-    NSDictionary* elemDict = NSDictionaryOfVariableBindings(_articleView);
+    // turn off scrolling on start
+    articleView.scrollEnabled = false;
+    
+    // must set these to NO to use autolayout code
+    [articleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [articleView.albumArtImgView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [articleView.firstParaLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    // autolayout with VFL
+    NSDictionary* elemDict = NSDictionaryOfVariableBindings(articleView);
     NSDictionary *metrics = @{@"topspace":[NSNumber numberWithInt:ARTICLE_VIEW_TOP_SPACE]};
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_articleView]|"
+    
+    // article view width matches parent view
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[articleView]|"
                                                                      options:NSLayoutFormatDirectionLeadingToTrailing
                                                                      metrics:metrics
                                                                        views:elemDict]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topspace)-[_articleView]"
+    // start with article view shifted down
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(topspace)-[articleView]"
                                                                       options:NSLayoutFormatDirectionLeadingToTrailing
                                                                       metrics:metrics
                                                                         views:elemDict]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
                                                           attribute:NSLayoutAttributeBottom
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:_articleView
+                                                             toItem:articleView
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1
                                                            constant:-ARTICLE_VIEW_TOP_SPACE]];
     
-    [_articleView layoutIfNeeded];
+    [articleView layoutIfNeeded];
     
+    // set bottom state y position to parent height minus bottom state height
+    ARTICLE_VIEW_BOTTOM_STATE_Y = self.view.frame.size.height - ARTICLE_VIEW_BOTTOM_STATE_HEIGHT;
     
-    //==============================================PAN GESTURE RECOGNIZER
-    _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    _panGestureRecognizer.delegate = self;
+    // set reference frames for use in sliding animations
+    initialFrame = CGRectMake(0, ARTICLE_VIEW_TOP_SPACE, articleView.frame.size.width, articleView.frame.size.height);
+    topFrame = CGRectMake(0, 0, articleView.frame.size.width, articleView.frame.size.height);
+    bottomFrame = CGRectMake(0, ARTICLE_VIEW_BOTTOM_STATE_Y, CGRectGetWidth(articleView.frame), articleView.frame.size.height);
     
-    _articleView.panGestureRecognizer.delegate = _articleView;
-    _articleView.panGestureRecognizer.enabled = false;
-    _articleView.gestureRecognizers = @[_articleView.panGestureRecognizer, _panGestureRecognizer];
+    //================================================================
+    // Article View Pan Gesture Recognizer
+    //================================================================
+    panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    panGestureRecognizer.delegate = self;
     
-    initialFrame = CGRectMake(0, ARTICLE_VIEW_TOP_SPACE, _articleView.frame.size.width, _articleView.frame.size.height);
-    topFrame = CGRectMake(0, 0, _articleView.frame.size.width, _articleView.frame.size.height);
-    bottomFrame = CGRectMake(0, ARTICLE_VIEW_BOTTOM_STATE_Y, CGRectGetWidth(_articleView.frame), _articleView.frame.size.height);
+    articleView.panGestureRecognizer.delegate = articleView;
+    articleView.panGestureRecognizer.enabled = false;
+    articleView.gestureRecognizers = @[articleView.panGestureRecognizer, panGestureRecognizer];
     
-    _articleView.scrollEnabled = false;
-    
-    //==============================================POPULATING
+    //================================================================
+    // Populate Labels
+    //================================================================
     self.artistLabel.text = [self.o[@"artist"] lowercaseString];
     self.albumLabel.text = self.o[@"album"];
     self.scoreLabel.text = [NSString stringWithFormat:@"%.1f", round(100 * [[self.o objectForKey:@"score"] floatValue] ) / 100];
     
-    
-    //==============================================NAVIGATION CONTROLLER
+    //================================================================
+    // Navigation Controller Settings
+    //================================================================
     self.navigationController.hidesBarsOnSwipe = NO;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    
-    //==============================================CORE MOTION
+    //================================================================
+    // Init Core Motion
+    //================================================================
     self.mm = [[CMMotionManager alloc] init];
     
+    // start getting motion updates if available
     if ([self.mm isDeviceMotionAvailable]) {
         NSLog(@"Device Motion Available");
         [self.mm setDeviceMotionUpdateInterval:1.0/10.0];
@@ -111,21 +135,27 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
         [self.mm startDeviceMotionUpdates];
     }
     
-    CMDeviceMotion *devMotion = self.mm.deviceMotion;
-    self.atitude = devMotion.attitude;
-
+    // easy access to atitude
+    self.atitude = self.mm.deviceMotion.attitude;
     
-    //==============================================TIMER
+    //================================================================
+    // Album Art Animarion Timer
+    //================================================================
+    
+    // timer animates album art based on phone orientation
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     
     
-    //==============================================POPULATING
-    _articleView.albumArtImgView.file = (PFFile *)[self.o objectForKey:@"album_art_large"];
-    [_articleView.albumArtImgView loadInBackground];
+    //================================================================
+    // Load Album Art
+    //================================================================
+    articleView.albumArtImgView.file = (PFFile *)[self.o objectForKey:@"album_art_large"];
+    [articleView.albumArtImgView loadInBackground];
     
-    
-    //==============================================PARAGRAPHS
+    //================================================================
+    // Article Paragraphs
+    //================================================================
     NSMutableArray* paras = [NSMutableArray arrayWithArray:[self.o[@"article_text"] componentsSeparatedByString:@"\n"]];
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
@@ -134,51 +164,35 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     [style setFirstLineHeadIndent:0.001f];
     NSDictionary *attributes = @{NSParagraphStyleAttributeName : style,};
     
-    CGSize labelSize = [_articleView.firstParaLabel.text sizeWithFont:_articleView.firstParaLabel.font
-                                            constrainedToSize:_articleView.firstParaLabel.frame.size
-                                                lineBreakMode:_articleView.firstParaLabel.lineBreakMode];
-    _articleView.firstParaLabel.frame = CGRectMake(
-                                           _articleView.firstParaLabel.frame.origin.x,
-                                           _articleView.firstParaLabel.frame.origin.y,
-                                           _articleView.firstParaLabel.frame.size.width,
+    CGSize labelSize = [articleView.firstParaLabel.text sizeWithFont:articleView.firstParaLabel.font
+                                            constrainedToSize:articleView.firstParaLabel.frame.size
+                                                lineBreakMode:articleView.firstParaLabel.lineBreakMode];
+    articleView.firstParaLabel.frame = CGRectMake(
+                                           articleView.firstParaLabel.frame.origin.x,
+                                           articleView.firstParaLabel.frame.origin.y,
+                                           articleView.firstParaLabel.frame.size.width,
                                            labelSize.height);
-    _articleView.firstParaLabel.numberOfLines = 0;
+    articleView.firstParaLabel.numberOfLines = 0;
     
     
-    _articleView.firstParaLabel.attributedText = [[NSAttributedString alloc]
-                                                  initWithString:paras[0]                                                                         attributes:attributes];
+    articleView.firstParaLabel.attributedText = [[NSAttributedString alloc]
+                                                  initWithString:paras[0]
+                                                  attributes:attributes];
     
-    labelSize = [_articleView.articleTextLabel.text sizeWithFont:_articleView.articleTextLabel.font
-                                       constrainedToSize:_articleView.articleTextLabel.frame.size
-                                           lineBreakMode:_articleView.articleTextLabel.lineBreakMode];
-    _articleView.articleTextLabel.frame = CGRectMake(
-                                             _articleView.articleTextLabel.frame.origin.x,
-                                             _articleView.articleTextLabel.frame.origin.y,
-                                             _articleView.articleTextLabel.frame.size.width,
+    labelSize = [articleView.articleTextLabel.text sizeWithFont:articleView.articleTextLabel.font
+                                       constrainedToSize:articleView.articleTextLabel.frame.size
+                                           lineBreakMode:articleView.articleTextLabel.lineBreakMode];
+    articleView.articleTextLabel.frame = CGRectMake(
+                                             articleView.articleTextLabel.frame.origin.x,
+                                             articleView.articleTextLabel.frame.origin.y,
+                                             articleView.articleTextLabel.frame.size.width,
                                              labelSize.height);
-    _articleView.articleTextLabel.numberOfLines = 0;
+    articleView.articleTextLabel.numberOfLines = 0;
     
     [paras removeObjectAtIndex:0];
     NSString *articleText = [paras componentsJoinedByString:@"\n\t"];
-    _articleView.articleTextLabel.attributedText = [[NSAttributedString alloc] initWithString:articleText
+    articleView.articleTextLabel.attributedText = [[NSAttributedString alloc] initWithString:articleText
                                                                            attributes:attributes];
-    //==============================================AUTOLAYOUT
-    //    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-    //                                                          attribute:NSLayoutAttributeBottom
-    //                                                          relatedBy:NSLayoutRelationEqual
-    //                                                             toItem:_articleView.firstParaLabel
-    //                                                          attribute:NSLayoutAttributeBottom
-    //                                                         multiplier:1
-    //                                                           constant:0]];
-    
-
-    
-//    self.containerView.frame = CGRectMake(0, 206, self.view.frame.size.width, self.view.frame.size.height+ 500);
-//    
-//    NSLog(@"%f %f", self.containerView.frame.origin.x, self.containerView.frame.origin.y);
-//    NSLog(@"%f %f", self.view.frame.size.height, self.view.frame.size.width);
-//    NSLog(@"content size in detail %f %f", self.articleVC.scrollView.contentSize.height, self.articleVC.view.frame.size.height);
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -186,49 +200,65 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Buttons
 
-
-#pragma mark - Navigation
-/*
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
+- (IBAction)onPlayButtonPressed:(id)sender {
+    if (self.player.isPlaying) {
+        [self.playButton setImage:[UIImage imageNamed:@"PlaySmall.png"] forState:UIControlStateNormal];
+    } else {
+        [self.playButton setImage:[UIImage imageNamed:@"PauseSmall.png"] forState:UIControlStateNormal];
+    }
+    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
 }
-*/
 
+- (IBAction)onNextButtonPressed:(id)sender {
+    [self.player skipNext:nil];
+}
+
+#pragma mark - Core Motion Sliding Album Art Animation
+
+// updates albume art position based on phone orientation
 - (void)update {
-    //    NSLog(@"%f, %f, %f", self.mm.deviceMotion.attitude.pitch, self.mm.deviceMotion.attitude.roll, self.mm.deviceMotion.attitude.yaw);
     
-    int i = 0;
-    double r = self.mm.deviceMotion.attitude.roll;
+    // change in x position to be applied
+    int deltaX = 0;
     
-    if ((r < 0 && _articleView.albumArtImgView.frame.origin.x < 0)
-        || (r > 0 && _articleView.albumArtImgView.frame.origin.x + _articleView.albumArtImgView.frame.size.width > self.view.frame.size.width)) {
+    // phone's current roll position
+    double roll = self.mm.deviceMotion.attitude.roll;
+    
+    // if album art is already at the edge of the screen, don't move it off screen = just return
+    if ((roll < 0 && articleView.albumArtImgView.frame.origin.x < 0)
+        || (roll > 0 && articleView.albumArtImgView.frame.origin.x + articleView.albumArtImgView.frame.size.width > self.view.frame.size.width)) {
         return;
     }
     
-    if (r < -0.1) {
-        i = -1;
-    } else if (r < 0.1) {
-        i = 0;
-    } else {
-        i = 1;
+    // if rolling left, move left one
+    if (roll < -0.1) {
+        deltaX = -1;
+    }
+    // else if roll isn't big enough, don't move
+    else if (roll < 0.1) {
+        deltaX = 0;
+    }
+    // else move right one
+    else {
+        deltaX = 1;
     }
     
+    // run animation to move album art
     [UIView animateWithDuration:1.0
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         _articleView.albumArtImgView.frame  = CGRectMake(_articleView.albumArtImgView.frame.origin.x + i,
-                                                                  _articleView.albumArtImgView.frame.origin.y,
-                                                                  _articleView.albumArtImgView.frame.size.width,
-                                                                  _articleView.albumArtImgView.frame.size.height);}
+                         articleView.albumArtImgView.frame  = CGRectMake(articleView.albumArtImgView.frame.origin.x + deltaX,
+                                                                  articleView.albumArtImgView.frame.origin.y,
+                                                                  articleView.albumArtImgView.frame.size.width,
+                                                                  articleView.albumArtImgView.frame.size.height);}
                      completion:nil];
     
 }
 
+#pragma mark - Pan Gesture Animation
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
 
@@ -240,43 +270,38 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
         
         CGPoint velocity = [recognizer velocityInView:self.view];
         
-        if (velocity.y > 0) { // Going down
+        // Going down
+        if (velocity.y > 0) {
             if (new_y < 30) {
                 toFrame = topFrame;
-                _articleView.scrollEnabled = true;
+                articleView.scrollEnabled = true;
                 [self.navigationController setNavigationBarHidden:YES animated:YES];
             } else if (new_y < 250) {
                 toFrame = initialFrame;
-                _articleView.scrollEnabled = false;
+                articleView.scrollEnabled = false;
                 [self.navigationController setNavigationBarHidden:NO animated:YES];
             } else {
                 toFrame = bottomFrame;
-                _articleView.scrollEnabled = false;
+                articleView.scrollEnabled = false;
                 [self.navigationController setNavigationBarHidden:NO animated:YES];
             }
-        } else { // Going up
+        }
+        // Going up
+        else {
             if (new_y > 550) {
                 toFrame = bottomFrame;
-                _articleView.scrollEnabled = false;
+                articleView.scrollEnabled = false;
                 [self.navigationController setNavigationBarHidden:NO animated:YES];
             } else if (new_y > 170) {
                 toFrame = initialFrame;
-                _articleView.scrollEnabled = false;
+                articleView.scrollEnabled = false;
                 [self.navigationController setNavigationBarHidden:NO animated:YES];
             } else {
                 toFrame = topFrame;
-                _articleView.scrollEnabled = true;
+                articleView.scrollEnabled = true;
                 [self.navigationController setNavigationBarHidden:YES animated:YES];
             }
         }
-        
-//        float slideFactor = 0.1 * slideMult; // Increase for more of a slide
-//        CGPoint finalPoint = CGPointMake(recognizer.view.center.x + (velocity.x * slideFactor),
-//                                         recognizer.view.center.y + (velocity.y * slideFactor));
-//        
-//        finalPoint.x = MIN(MAX(finalPoint.x, 0), self.view.bounds.size.width);
-//        finalPoint.y = MIN(MAX(finalPoint.y, 0), self.view.bounds.size.height);
-        
         
         [UIView animateWithDuration:1.0/5.0 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             recognizer.view.frame = toFrame;
@@ -289,13 +314,16 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
         CGPoint translation = [recognizer translationInView:self.view];
         int new_y = recognizer.view.frame.origin.y + translation.y;
         
-        if (new_y <= 0) { // Slide all the way up
+        // If new y is at top -> slide all the way up
+        if (new_y <= 0) {
             new_y = 0;
-            _articleView.scrollEnabled = true;
+            articleView.scrollEnabled = true;
             [self.navigationController setNavigationBarHidden:NO animated:YES];
-        } else if (new_y >= ARTICLE_VIEW_BOTTOM_STATE_Y) { // Slide all the way down
+        }
+        // else if new y is past bottom state requirement, slide all the way down
+        else if (new_y >= ARTICLE_VIEW_BOTTOM_STATE_Y) {
             new_y = ARTICLE_VIEW_BOTTOM_STATE_Y;
-            _articleView.scrollEnabled = false;
+            articleView.scrollEnabled = false;
         }
         
         recognizer.view.frame = CGRectMake(recognizer.view.frame.origin.x,
@@ -316,32 +344,19 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     
     CGPoint velocity = [recognizer velocityInView:self.view];
     
-    if (velocity.y > 0 && _articleView.frame.origin.y == 0) {
+    if (velocity.y > 0 && articleView.frame.origin.y == 0) {
         // Swiping down when article view is at the top...
-        if (_articleView.contentOffset.y == 0) {
-            _articleView.scrollEnabled = false;
+        if (articleView.contentOffset.y == 0) {
+            articleView.scrollEnabled = false;
             return true;
         } else {
             return false;
         }
-    } else if (velocity.y < 0 && _articleView.frame.origin.y == 0) {
+    } else if (velocity.y < 0 && articleView.frame.origin.y == 0) {
         // Swiping up when article view is at top
         return false;
     }
     
     return true;
-}
-
-- (IBAction)onPlayButtonPressed:(id)sender {
-    if (self.player.isPlaying) {
-        [self.playButton setImage:[UIImage imageNamed:@"PlaySmall.png"] forState:UIControlStateNormal];
-    } else {
-        [self.playButton setImage:[UIImage imageNamed:@"PauseSmall.png"] forState:UIControlStateNormal];
-    }
-    [self.player setIsPlaying:!self.player.isPlaying callback:nil];
-}
-
-- (IBAction)onNextButtonPressed:(id)sender {
-    [self.player skipNext:nil];
 }
 @end

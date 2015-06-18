@@ -12,32 +12,32 @@
 
 
 @interface MainTableViewController () <SPTAudioStreamingDelegate>
-@property NSInteger toggle;
 @property (strong, nonatomic) UIPickerView *pickerView;
-@property NSArray* pickerViewNames;
-@property (nonatomic, strong) SPTAudioStreamingController *player;
-
-// contraints
-@property NSLayoutConstraint *alignTableViewTopViewTopContraint;
-@property NSLayoutConstraint *alignPickerViewTopViewBottomConstraint;
-@property NSLayoutConstraint *pickerViewHeightConstraint;
-@property NSLayoutConstraint *alignPickerViewBottomViewBottomConstraint;
-@property NSLayoutConstraint *alignPickerViewTopTableViewBottomConstraint;
+@property (strong, nonatomic) SPTAudioStreamingController *player;
 @end
 
 @implementation MainTableViewController
-{
-    NSArray* data;
-}
 
-@synthesize pickerView = _pickerView, tableView = _tableView;
+// array of results from queries, list of PFObjects
+static NSArray* data;
 
 static NSString *CellIdentifier = @"ReviewTableViewCell";
+
+static NSArray* pickerViewNames;
+
+// picker view autolayout contraints
+static NSLayoutConstraint *alignPickerViewTopWithViewBottomConstraint;
+static NSLayoutConstraint *pickerViewHeightConstraint;
+static NSLayoutConstraint *alignPickerViewBottomWithViewBottomConstraint;
+static NSLayoutConstraint *alignPickerViewTopWithTableViewBottomConstraint;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // NAVIGATION CONTROLLER
+    //================================================================
+    // Navigation Controller Settings
+    //================================================================
     [self.navigationController.navigationBar setTitleTextAttributes:@{[UIFont fontWithName:@"Arial" size:0.0]:NSFontAttributeName}];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
@@ -46,38 +46,43 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent = NO;
     
-    // PICKERVIEW
+    //================================================================
+    // Create Picker View, add as subview
+    //================================================================
     self.pickerView = [[UIPickerView alloc] init];
     
-    [self.view addSubview:_pickerView];
-    
-    self.pickerViewNames = @[@"Score", @"Year",@"Album"];
-    self.toggle = 0;
+    pickerViewNames = @[@"Score", @"Year",@"Album"];
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
     self.pickerView.hidden = YES;
     
-     _pickerView.frame = CGRectMake(0,
+    self.pickerView.frame = CGRectMake(0,
                                     self.view.frame.size.height,
                                     self.view.frame.size.width,
-                                    _pickerView.frame.size.height);
+                                    self.pickerView.frame.size.height);
 
-    // AUTOLAYOUT
+    [self.view addSubview:self.pickerView];
+
+    //================================================================
+    // Create Autolayout Constraints for PickerView
+    //================================================================
+    
+    // these need to be set to NO to use autolayout
     [self.pickerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.tableView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.pickerView selectRow:1 inComponent:0 animated:NO];
     
-    // NSDictionary *elementsDict = NSDictionaryOfVariableBindings(_pickerView, _tableView);
-
-     _alignTableViewTopViewTopContraint = [NSLayoutConstraint constraintWithItem:self.tableView
-                                                                        attribute:NSLayoutAttributeTop
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.view
-                                                                        attribute:NSLayoutAttributeTop
-                                                                       multiplier:1
-                                                                         constant:0];
+    // sets a constant picker view height
+    pickerViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
+                                                               attribute:NSLayoutAttributeHeight
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:nil
+                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                              multiplier:1
+                                                                constant:self.pickerView.frame.size.height];
     
-    _alignPickerViewTopTableViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
+    // makes sure the table view shrinks and growns when the picker view slides up and down
+    alignPickerViewTopWithTableViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
                                                                                 attribute:NSLayoutAttributeTop
                                                                                 relatedBy:NSLayoutRelationEqual
                                                                                    toItem:self.tableView
@@ -85,40 +90,49 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
                                                                                multiplier:1
                                                                                  constant:0];
     
-    _alignPickerViewTopViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
+    // used in sliding picker view down animation
+    alignPickerViewTopWithViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
                                                                attribute:NSLayoutAttributeTop
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:self.view
                                                                attribute:NSLayoutAttributeBottom
                                                               multiplier:1
                                                                 constant:0];
-    _alignPickerViewBottomViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
+    
+    // used in sliding picker view up animation
+    alignPickerViewBottomWithViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
                                                                     attribute:NSLayoutAttributeBottom
                                                                     relatedBy:NSLayoutRelationEqual
                                                                        toItem:self.view
                                                                     attribute:NSLayoutAttributeBottom
                                                                    multiplier:1
                                                                      constant:0];
-    _pickerViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.pickerView
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:1
-                                                                constant:_pickerView.frame.size.height];
 
-    [self.view addConstraints:@[_pickerViewHeightConstraint, _alignPickerViewTopTableViewBottomConstraint, _alignPickerViewTopViewBottomConstraint]];
+    // adds contraints to start off with picker view off screen
+    [self.view addConstraints:@[pickerViewHeightConstraint, alignPickerViewTopWithTableViewBottomConstraint, alignPickerViewTopWithViewBottomConstraint]];
     
-    // TABLEVIEW CELL
+    //================================================================
+    // Register Review Table View Cell
+    //================================================================
     [self.tableView registerNib:[UINib nibWithNibName:@"ReviewTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
 
-    // QUERY
-    [self query:@"year" ascending:NO];
+    //================================================================
+    // Get albums sorted by year
+    //================================================================
+    [self getAlbumsSortedBy:@"year" ascending:NO];
     
-
+    //================================================================
+    // Handle playback commands from control center music controls
+    //================================================================
+    
+    // Once the view has loaded then we can register to begin recieving controls and we can become the first responder
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
     
+    // create new spotify session
+    [self handleNewSession];
+    
+    // handle specific commands
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent *event) {
         // Begin playing the current track.
@@ -140,72 +154,17 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
         [self.player skipPrevious:nil];
         return MPRemoteCommandHandlerStatusSuccess;
     }];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
 
-    
-//    MPNowPlayingInfoCenter* info = [MPNowPlayingInfoCenter defaultCenter];
-//    NSMutableDictionary* newInfo = [NSMutableDictionary dictionary];
-//    NSSet* itemProperties = [NSSet setWithObjects:MPMediaItemPropertyTitle,
-//                             MPMediaItemPropertyArtist,
-//                             MPMediaItemPropertyPlaybackDuration,
-//                             MPNowPlayingInfoPropertyElapsedPlaybackTime,
-//                             nil];
-//    
-//    newInfo = @{MPMediaItemPropertyTitle: @"Hello", MPMediaItemPropertyArtist: @"Beyonce", MPMediaItemPropertyPlaybackDuration:@30, MPNowPlayingInfoPropertyElapsedPlaybackTime: @30};
-//    
-//    info.nowPlayingInfo = newInfo;
-    
-    
 }
 
-//- (void) remoteControlReceivedWithEvent: (UIEvent*) event
-//{
-//    // see [event subtype] for details
-//    if (event.type == UIEventTypeRemoteControl) {
-//        // We may be receiving an event from the lockscreen
-//        switch (event.subtype) {
-//            case UIEventSubtypeRemoteControlTogglePlayPause:
-//            case UIEventSubtypeRemoteControlPlay:
-//            case UIEventSubtypeRemoteControlPause:
-//                // User pressed play or pause from lockscreen
-//                NSLog(@"af");
-//                break;
-//                
-//            case UIEventSubtypeRemoteControlNextTrack:
-//                // User pressed FFW from lockscreen
-//                break;
-//                
-//            case UIEventSubtypeRemoteControlPreviousTrack:
-//                // User pressed rewind from lockscreen
-//                break;
-//                
-//            default:
-//                break;
-//        }
-//    }
-//}
-
 - (void) viewDidAppear:(BOOL)animated {
-
     [super viewDidAppear:animated];
     
     self.navigationController.hidesBarsOnSwipe = YES;
-    
-    //Once the view has loaded then we can register to begin recieving controls and we can become the first responder
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    [self becomeFirstResponder];
-    
-    [self handleNewSession];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    //End recieving events
+    // End recieving events
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [self resignFirstResponder];
     
@@ -221,7 +180,7 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     return YES;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -235,14 +194,19 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    // get cell
     ReviewTableViewCell *cell = (ReviewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    // get album object
     PFObject *o = data[indexPath.row];
+    
+    // populate labels
     cell.albumLabel.text = [o objectForKey:@"album"];
     cell.artistLabel.text = [o objectForKey:@"artist"];
     cell.scoreLabel.text = [NSString stringWithFormat:@"%.1f", round(100 * [[o objectForKey:@"score"] floatValue] ) / 100];
     cell.yearLabel.text = [[o objectForKey:@"year"] stringValue];
     
+    // load album art image
     cell.albumartImgView.file = (PFFile *)[o objectForKey:@"album_art"];
     [cell.albumartImgView loadInBackground];
     
@@ -258,48 +222,18 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     [self performSegueWithIdentifier:@"ShowDetail" sender:o];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+#pragma mark - Navigation and Buttons
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(PFObject*)sender {
+    
     // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
     DetailViewController *vc = [segue destinationViewController];
+    
+    // Pass the selected object to the new view controller.
     vc.o = sender;
+    
+    // Pass player to view controller
     vc.player = self.player;
 }
 
@@ -309,6 +243,7 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 
 #pragma mark - Picker View
 
+// Called when sort button is pressed. Fires animation to slide PickerView up.
 - (void)bringUpPickerView {
     [UIView animateWithDuration:0.5f
                           delay:0.0f
@@ -317,22 +252,23 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
      {
          self.pickerView.hidden = NO;
          
-         [self.view removeConstraint:_alignPickerViewTopViewBottomConstraint];
-         [self.view addConstraint:_alignPickerViewBottomViewBottomConstraint];
+         [self.view removeConstraint:alignPickerViewTopWithViewBottomConstraint];
+         [self.view addConstraint:alignPickerViewBottomWithViewBottomConstraint];
          
          [self.view layoutIfNeeded];
      }
                      completion:nil];
 }
 
+// Called after picker view option is chosen. Fires animation to slide PickerView down.
 - (void)hidePickerView {
     [UIView animateWithDuration:0.5f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^
      {
-         [self.view removeConstraint:_alignPickerViewBottomViewBottomConstraint];
-         [self.view addConstraint:_alignPickerViewTopViewBottomConstraint];
+         [self.view removeConstraint:alignPickerViewBottomWithViewBottomConstraint];
+         [self.view addConstraint:alignPickerViewTopWithViewBottomConstraint];
 
          [self.view layoutIfNeeded];
      }
@@ -343,16 +279,16 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.toggle = 0;
+
     switch (row) {
         case 0:
-            [self query:@"score" ascending:NO];
+            [self getAlbumsSortedBy:@"score" ascending:NO];
             break;
         case 1:
-            [self query:@"year" ascending:NO];
+            [self getAlbumsSortedBy:@"year" ascending:NO];
             break;
         case 2:
-            [self query:@"album" ascending:YES];
+            [self getAlbumsSortedBy:@"album" ascending:YES];
             break;
         default:
             break;
@@ -365,11 +301,11 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [self.pickerViewNames count];
+    return [pickerViewNames count];
 }
 
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *title = self.pickerViewNames[row];
+    NSString *title = pickerViewNames[row];
     NSAttributedString *attString = [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"Arial" size:0.0]}];
     
     return attString;
@@ -377,19 +313,24 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 
 #pragma mark - Private methods
 
-- (void)query:(NSString*) sortByfield ascending:(bool) ascending {
+// Helper method for executing query that retrieves and sorts albums
+- (void)getAlbumsSortedBy:(NSString*)sortByfield ascending:(bool)ascending {
+    
+    // query from the PitchforkBestNewMusic class
     PFQuery *query = [PFQuery queryWithClassName:@"PitchforkBestNewMusic"];
+    
     [query setLimit: 1000];
+    
     if (ascending) {
         [query addAscendingOrder:sortByfield];
     } else {
         [query addDescendingOrder:sortByfield];
     }
-
+    
+    // execute query
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
-            
             data = objects;
             [self.tableView reloadData];
             
@@ -400,6 +341,7 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
     }];
 }
 
+// Handles creating a Spotify session
 -(void)handleNewSession {
     SPTAuth *auth = [SPTAuth defaultInstance];
     
@@ -416,7 +358,7 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
             return;
         }
         
-//        [self updateUI];
+       //[self updateUI];
         
     }];
 }
@@ -438,33 +380,12 @@ static NSString *CellIdentifier = @"ReviewTableViewCell";
 
 - (void) audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata {
     NSLog(@"track changed = %@", [trackMetadata valueForKey:SPTAudioStreamingMetadataTrackURI]);
-//    [self updateUI];
+    //[self updateUI];
 }
 
 - (void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangePlaybackStatus:(BOOL)isPlaying {
     NSLog(@"is playing = %d", isPlaying);
 }
-
-#pragma mark - Control Center
-
-//- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-//    
-//    if (receivedEvent.type == UIEventTypeRemoteControl) {
-//        switch (receivedEvent.subtype) {
-//            case UIEventSubtypeRemoteControlPlay:
-//                [self.player setIsPlaying:YES callback:nil];
-//                break;
-//            case UIEventSubtypeRemoteControlPause:
-//                [self.player setIsPlaying:NO callback:nil];
-//                break;
-//            case UIEventSubtypeRemoteControlTogglePlayPause:
-//                [self.player setIsPlaying:!self.player.isPlaying callback:nil];
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//}
 
 @end
 

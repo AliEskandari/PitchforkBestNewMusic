@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="350" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PtU-P8-bN2">
-                                <rect key="frame" x="0.0" y="20" width="350" height="680"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PtU-P8-bN2">
+                                <rect key="frame" x="0.0" y="20" width="350" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="8yo-2f-4aF" id="man-O2-dgh"/>
@@ -30,7 +30,6 @@
                         <constraints>
                             <constraint firstItem="PtU-P8-bN2" firstAttribute="top" secondItem="Coa-Sf-hpW" secondAttribute="bottom" id="6Po-rT-CLU"/>
                             <constraint firstAttribute="trailing" secondItem="PtU-P8-bN2" secondAttribute="trailing" id="JGe-r8-MZ7"/>
-                            <constraint firstItem="npx-zY-O6n" firstAttribute="top" secondItem="PtU-P8-bN2" secondAttribute="bottom" id="U4y-2b-V3C"/>
                             <constraint firstItem="PtU-P8-bN2" firstAttribute="leading" secondItem="o7s-Gw-5og" secondAttribute="leading" id="gKx-c6-Om0"/>
                         </constraints>
                     </view>

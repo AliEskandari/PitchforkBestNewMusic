@@ -24,7 +24,7 @@
 @property CMAttitude *atitude;
 @property CMMotionManager *mm;
 
-@property (nonatomic, strong) SPTAudioStreamingController *player;
+@property (strong, nonatomic) SPTAudioStreamingController *player;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 - (IBAction)onPlayButtonPressed:(id)sender;
