@@ -37,7 +37,6 @@
 		41CCE1C21AE80C0B00028623 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BE1AE80C0A00028623 /* ParseUI.framework */; };
 		41CCE1C31AE80C0B00028623 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CCE1BF1AE80C0A00028623 /* Spotify.framework */; };
 		41D3EDB71AE4A63A00E4C507 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */; };
-		41D3EDBA1AE4C39A00E4C507 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */; };
 		41DEEBD41AE87AE000918F97 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41DEEBD31AE87AE000918F97 /* AVFoundation.framework */; };
 		41DEEBD81AE8A5DB00918F97 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DEEBD71AE8A5DB00918F97 /* LoginController.m */; };
 		41DEEBDA1AE958C400918F97 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41DEEBD91AE958C400918F97 /* MediaPlayer.framework */; };
@@ -96,8 +95,6 @@
 		41CCE1BE1AE80C0A00028623 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Frameworks/ParseUI.framework; sourceTree = "<group>"; };
 		41CCE1BF1AE80C0A00028623 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = Frameworks/Spotify.framework; sourceTree = "<group>"; };
 		41D3EDB61AE4A63A00E4C507 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		41D3EDB81AE4C39A00E4C507 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
-		41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
 		41DEEBD31AE87AE000918F97 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		41DEEBD51AE8862500918F97 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		41DEEBD61AE8A5DB00918F97 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
@@ -246,8 +243,6 @@
 				41829E811ADF50F500D59AE3 /* MainTableViewController.m */,
 				4109A8411AE189F90019A724 /* DetailViewController.h */,
 				4109A8421AE189F90019A724 /* DetailViewController.m */,
-				41D3EDB81AE4C39A00E4C507 /* ArticleViewController.h */,
-				41D3EDB91AE4C39A00E4C507 /* ArticleViewController.m */,
 				41BF1B3D1AE5FA9B006F959C /* ArticleView.h */,
 				41BF1B3E1AE5FA9B006F959C /* ArticleView.m */,
 				41BF1B401AE5FAB6006F959C /* ArticleView.xib */,
@@ -409,7 +404,6 @@
 				41829E341ADF248A00D59AE3 /* AppDelegate.m in Sources */,
 				41829E311ADF248A00D59AE3 /* main.m in Sources */,
 				41BF1B3F1AE5FA9B006F959C /* ArticleView.m in Sources */,
-				41D3EDBA1AE4C39A00E4C507 /* ArticleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
