@@ -10,7 +10,7 @@
 #ifndef Pitchfork_Best_New_Music_Config_h
 #define Pitchfork_Best_New_Music_Config_h
 
-#warning Please update these values to match the settings for your own application as these example values could change at any time.
+// #warning Please update these values to match the settings for your own application as these example values could change at any time.
 // For an in-depth auth demo, see the "Basic Auth" demo project supplied with the SDK.
 // Don't forget to add your callback URL's prefix to the URL Types section in the target's Info pane!
 
