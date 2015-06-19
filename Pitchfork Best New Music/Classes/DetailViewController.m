@@ -14,7 +14,7 @@
 @implementation DetailViewController
 
 ArticleView *articleView;
-UIPanGestureRecognizer *panGestureRecognizer;
+UIPanGestureRecognizer *articleViewFramePanGestureRecognizer;
 
 // reference variables for sliding article view
 static CGRect topFrame;
@@ -26,6 +26,19 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //================================================================
+    // Navigation Controller Settings
+    //================================================================
+    self.navigationController.hidesBarsOnSwipe = NO;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    //================================================================
+    // Populate Header Labels
+    //================================================================
+    self.artistLabel.text = [self.o[@"artist"] lowercaseString];
+    self.albumLabel.text = self.o[@"album"];
+    self.scoreLabel.text = [NSString stringWithFormat:@"%.1f", round(100 * [[self.o objectForKey:@"score"] floatValue] ) / 100];
     
     //===============================================================
     // Prepare Spotify Player
@@ -100,30 +113,25 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     bottomFrame = CGRectMake(0, ARTICLE_VIEW_BOTTOM_STATE_Y, CGRectGetWidth(articleView.frame), articleView.frame.size.height);
     
     //================================================================
-    // Article View Pan Gesture Recognizer
+    // Create Article View Frame Pan Gesture Recognizer
     //================================================================
-    panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    panGestureRecognizer.delegate = self;
     
-    articleView.panGestureRecognizer.delegate = articleView;
-    articleView.panGestureRecognizer.enabled = false;
-    articleView.gestureRecognizers = @[articleView.panGestureRecognizer, panGestureRecognizer];
+    // create pan gesture recognizer to handle sliding article view frame
+    articleViewFramePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    articleViewFramePanGestureRecognizer.delegate = self;
     
-    //================================================================
-    // Populate Labels
-    //================================================================
-    self.artistLabel.text = [self.o[@"artist"] lowercaseString];
-    self.albumLabel.text = self.o[@"album"];
-    self.scoreLabel.text = [NSString stringWithFormat:@"%.1f", round(100 * [[self.o objectForKey:@"score"] floatValue] ) / 100];
+    // append new recognizer to article view's recognizers.
+    // recognizer will be activated only when its associated view is interacted with
+    articleView.gestureRecognizers = @[articleView.panGestureRecognizer, articleViewFramePanGestureRecognizer];
     
     //================================================================
-    // Navigation Controller Settings
+    // Load Album Art in Article View
     //================================================================
-    self.navigationController.hidesBarsOnSwipe = NO;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    articleView.albumArtImgView.file = (PFFile *)[self.o objectForKey:@"album_art_large"];
+    [articleView.albumArtImgView loadInBackground];
     
     //================================================================
-    // Init Core Motion
+    // Init Core Motion and Timer to slide Album Art
     //================================================================
     self.mm = [[CMMotionManager alloc] init];
     
@@ -138,23 +146,12 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     // easy access to atitude
     self.atitude = self.mm.deviceMotion.attitude;
     
-    //================================================================
-    // Album Art Animarion Timer
-    //================================================================
-    
     // timer animates album art based on phone orientation
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     
-    
     //================================================================
-    // Load Album Art
-    //================================================================
-    articleView.albumArtImgView.file = (PFFile *)[self.o objectForKey:@"album_art_large"];
-    [articleView.albumArtImgView loadInBackground];
-    
-    //================================================================
-    // Article Paragraphs
+    // Article View Paragraphs - Style and Setup
     //================================================================
     NSMutableArray* paras = [NSMutableArray arrayWithArray:[self.o[@"article_text"] componentsSeparatedByString:@"\n"]];
     
@@ -217,7 +214,7 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
 
 #pragma mark - Core Motion Sliding Album Art Animation
 
-// updates albume art position based on phone orientation
+// updates album art horizontal position based on phone orientation
 - (void)update {
     
     // change in x position to be applied
@@ -262,98 +259,106 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
 
+    // If user finished swiping and lifted finger, move article view to correct reference frame
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         
+        // final frame Article View will move to
         CGRect toFrame;
+        
+        // translation since last update
         CGPoint translation = [recognizer translationInView:self.view];
+        
+        // resulting new y position of view after translation
         int new_y = recognizer.view.frame.origin.y + translation.y;
         
+        // velocity of pan
         CGPoint velocity = [recognizer velocityInView:self.view];
         
-        // Going down
+        // if user was swiping down...
         if (velocity.y > 0) {
             if (new_y < 30) {
                 toFrame = topFrame;
-                articleView.scrollEnabled = true;
-                [self.navigationController setNavigationBarHidden:YES animated:YES];
             } else if (new_y < 250) {
                 toFrame = initialFrame;
-                articleView.scrollEnabled = false;
-                [self.navigationController setNavigationBarHidden:NO animated:YES];
             } else {
                 toFrame = bottomFrame;
-                articleView.scrollEnabled = false;
-                [self.navigationController setNavigationBarHidden:NO animated:YES];
             }
         }
-        // Going up
+        // if user was swiping up...
         else {
             if (new_y > 550) {
                 toFrame = bottomFrame;
-                articleView.scrollEnabled = false;
-                [self.navigationController setNavigationBarHidden:NO animated:YES];
             } else if (new_y > 170) {
                 toFrame = initialFrame;
-                articleView.scrollEnabled = false;
-                [self.navigationController setNavigationBarHidden:NO animated:YES];
             } else {
                 toFrame = topFrame;
-                articleView.scrollEnabled = true;
-                [self.navigationController setNavigationBarHidden:YES animated:YES];
             }
         }
         
+        // disable scrolling and hide nav bar if necessary
+        if (CGRectEqualToRect(toFrame, topFrame)) {
+            articleView.scrollEnabled = true;
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        } else {
+            articleView.scrollEnabled = false;
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+        
+        // animate to final frame
         [UIView animateWithDuration:1.0/5.0 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             recognizer.view.frame = toFrame;
         } completion:nil];
-        
     }
     
+    // if user is currently swiping, update article view's position to align with swipe
     if (recognizer.state == UIGestureRecognizerStateChanged) {
         
         CGPoint translation = [recognizer translationInView:self.view];
         int new_y = recognizer.view.frame.origin.y + translation.y;
         
-        // If new y is at top -> slide all the way up
+        /** Cover top and bottom boundaries **/
+        // If new y is past the top, set new y equal to top
         if (new_y <= 0) {
             new_y = 0;
-            articleView.scrollEnabled = true;
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
         }
-        // else if new y is past bottom state requirement, slide all the way down
+        // else if new y is past bottom state requirement, set new y equal to bottom state y position
         else if (new_y >= ARTICLE_VIEW_BOTTOM_STATE_Y) {
             new_y = ARTICLE_VIEW_BOTTOM_STATE_Y;
-            articleView.scrollEnabled = false;
         }
         
+        // update article view frame
         recognizer.view.frame = CGRectMake(recognizer.view.frame.origin.x,
                                            new_y,
                                            recognizer.view.frame.size.width,
                                            recognizer.view.frame.size.height);
         
+        // reset translation
         [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
     }
     
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
-
+// Determines whether articleViewFramePanGestureRecognizer should process swipe (move article frame) or not.
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint velocity = [recognizer velocityInView:self.view];
     
+    // if swiping down and article view frame is at the top...
     if (velocity.y > 0 && articleView.frame.origin.y == 0) {
-        // Swiping down when article view is at the top...
+        // AND article content is scrolled to the top...
         if (articleView.contentOffset.y == 0) {
+            // ...turn off scrolling and process swipe to pull down frame
             articleView.scrollEnabled = false;
             return true;
-        } else {
+        }
+        // Otherwise, don't process swipe and allow other gesture recognizer to scroll content
+        else {
             return false;
         }
-    } else if (velocity.y < 0 && articleView.frame.origin.y == 0) {
-        // Swiping up when article view is at top
+    }
+    // else if swiping up when article view is at the top,
+    // don't process swipe and allow other recognizer to scroll content
+    else if (velocity.y < 0 && articleView.frame.origin.y == 0) {
         return false;
     }
     
