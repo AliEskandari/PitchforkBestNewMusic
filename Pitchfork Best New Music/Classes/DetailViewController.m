@@ -158,7 +158,7 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     style.lineSpacing = 4;
     [style setAlignment:NSTextAlignmentJustified];
-    [style setFirstLineHeadIndent:0.001f];
+    [style setFirstLineHeadIndent:0.001f]; // needed for justified text to work
     NSDictionary *attributes = @{NSParagraphStyleAttributeName : style,};
     
     CGSize labelSize = [articleView.firstParaLabel.text sizeWithFont:articleView.firstParaLabel.font
@@ -335,7 +335,6 @@ static int ARTICLE_VIEW_BOTTOM_STATE_Y;
         // reset translation
         [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
     }
-    
 }
 
 // Determines whether articleViewFramePanGestureRecognizer should process swipe (move article frame) or not.

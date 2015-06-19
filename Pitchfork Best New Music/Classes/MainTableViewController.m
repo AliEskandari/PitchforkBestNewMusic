@@ -230,7 +230,7 @@ static NSLayoutConstraint *alignPickerViewTopWithTableViewBottomConstraint;
     // Get the new view controller using [segue destinationViewController].
     DetailViewController *vc = [segue destinationViewController];
     
-    // Pass the selected object to the new view controller.
+    // Pass the selected album's object to the new view controller.
     vc.o = sender;
     
     // Pass player to view controller
