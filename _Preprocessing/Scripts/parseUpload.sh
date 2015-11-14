@@ -1,0 +1,1 @@
+curl -X POST -H "X-Parse-Application-Id: FP2mYhAXT4lL3J2ggpo6sIoRUCisS6F5vfRnbRFm" -H "X-Parse-REST-API-Key: Ce6VrAE8Wgx4IkDgUWLS4K9rEklnaH9hWLzhZ41U" -H "Content-Type: image/jpg" -T './AlbumArt/47LYxbvsq0.jpg' https://api.parse.com/1/files/hello.jpg

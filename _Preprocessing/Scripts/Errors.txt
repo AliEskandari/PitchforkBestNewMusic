@@ -1,0 +1,58 @@
+"working on http://pitchfork.com/reviews/albums/10025-person-pitch/ np53HXAZrT"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  4873  100    36  100  4837     28   3827  0:00:01  0:00:01 --:--:--  3826
+100  4873  100    36  100  4837     28   3826  0:00:01  0:00:01 --:--:--  3826
+"http://pitchfork.com/reviews/albums/10025-person-pitch/"
+"{\"code\":107,\"error\":\"invalid JSON\"}\n"
+"working on http://pitchfork.com/reviews/albums/855-the-lemon-of-pink/ Pw2eu3FRI4"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0  5108    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+100  5144  100    36  100  5108     23   3326  0:00:01  0:00:01 --:--:--  3325
+"http://pitchfork.com/reviews/albums/855-the-lemon-of-pink/"
+"{\"code\":107,\"error\":\"invalid JSON\"}\n"
+"working on http://pitchfork.com/reviews/albums/3279-franz-ferdinand/ uvQFW7CE6A"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0  6007    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+100  6043  100    36  100  6007     20   3486  0:00:01  0:00:01 --:--:--  3486
+"http://pitchfork.com/reviews/albums/3279-franz-ferdinand/"
+"{\"code\":107,\"error\":\"invalid JSON\"}\n"
+"working on http://pitchfork.com/reviews/albums/8825-a-promise/ jjV9ULyZSv"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0  5931    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+100  5967  100    36  100  5931     18   3048  0:00:02  0:00:01  0:00:01  3047
+"http://pitchfork.com/reviews/albums/8825-a-promise/"
+"{\"code\":107,\"error\":\"invalid JSON\"}\n"
+"working on http://pitchfork.com/reviews/albums/6542-mazatlan/ eWI7ivIVLv"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  5533  100    36  100  5497     23   3623  0:00:01  0:00:01 --:--:--  3623
+"http://pitchfork.com/reviews/albums/6542-mazatlan/"
+"{\"code\":107,\"error\":\"invalid JSON\"}\n"
+"working on http://pitchfork.com/reviews/albums/1774-cathedral/ GQFQ4zbZak"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0  3047    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+100  3083  100    36  100  3047     27   2362  0:00:01  0:00:01 --:--:--  2363
+"http://pitchfork.com/reviews/albums/1774-cathedral/"
+"{\"code\":107,\"error\":\"invalid JSON\"}\n"
